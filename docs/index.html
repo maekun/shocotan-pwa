@@ -10,13 +10,12 @@
       navigator.serviceWorker.register('./service-worker.js')
         .then(function() { 
           console.log('Service Worker Registered');
-
-          //https://myenigma.hatenablog.com/entry/2015/07/21/113109
-          addToHomescreen({
-            appID:"AddToHomescreenKindleHighlights",
-            lifespan:0
-          });
         });
+      //https://myenigma.hatenablog.com/entry/2015/07/21/113109
+      addToHomescreen({
+        appID:"AddToHomescreenKindleHighlights",
+        lifespan:0
+      });
     }
   </script>
   <title>Hello PWA.</title>
