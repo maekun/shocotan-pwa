@@ -22,7 +22,7 @@ self.addEventListener("push", (event) => {
           throw new Error('User not subscribed')
       })
       .then((res) => {
-        return fetch('/notifications.json')
+        return fetch('../notifications.json')
       })
       .then((res) => {
         if (res.status === 200) {
@@ -32,7 +32,7 @@ self.addEventListener("push", (event) => {
       })
       .then((res) => {
         return self.registration.showNotification(res.title, {
-          icon: '/image/p-chan.png',
+          icon: '../image/p-chan.png',
           body: res.body
         })
       })
