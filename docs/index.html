@@ -38,7 +38,7 @@
               })
           }).then(function(subscription) {
             console.log("pushManager endpoint:", subscription.endpoint) 
-            document.getElementById('endpoint').innerText(subscription.endpoint)
+            document.getElementById('endpoint').innerText = subscription.endpoint
           }).catch(function(error) {
             console.warn("serviceWorker error:", error)
           })
