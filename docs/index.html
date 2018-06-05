@@ -3,29 +3,6 @@
   <!-- manifest.jsonを呼び出しています -->
   <link rel="manifest" href="./manifest.json">
   <link rel="stylesheet" type="text/css" href="./css/addtohomescreen.css">
-  <script src="./js/addtohomescreen.js"></script>
-  <script>
-    // service workerが有効なら、service-worker.js を登録します
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./service-worker.js')
-        .then(function() { 
-          console.log('Service Worker Registered');
-        });
-    }
-    //https://myenigma.hatenablog.com/entry/2015/07/21/113109
-    addToHomescreen({
-      appID:"AddToHomescreenKindleHighlights",
-      lifespan:0,
-      message: 'メッセージ性強め'
-    });
-    // const addToHome = addToHomescreen({ //http://cubiq.org/add-to-home-screen
-    //   appID:"AddToHomescreenKindleHighlights",
-    //   lifespan:0, //何秒で消えるか（ 0ならバツを押すまで消えない）
-    //   autostart: false, //自動で表示するか
-    //   startDelay: 2, //表示するまでの秒数
-    //   message: 'メッセージ性強め'
-    // });
-  </script>
   <title>Hello PWA.</title>
   <style>
     body {
@@ -44,5 +21,49 @@
   <h1>Hello PWA.</h1>
   <img src="./image/pwa-logo.svg" alt="PWA logo" class="image" />
   <!-- <a href="p.html">p.html</a> -->
+
+
+
+
+  <script src="./js/addtohomescreen.js"></script>
+  <script src="./js/main.js"></script>
+  <script>
+    // service workerが有効なら、service-worker.js を登録します
+    window.addEventListener('load', function() {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register("/sw.js")
+          .then(function(registration) {
+            // console.log('Service Worker Registered');
+            return registration.pushManager.getSubscription()
+              .then(function(subscription) {
+                if (subscription) {
+                  return subscription
+                }
+                return registration.pushManager.subscribe({
+                  userVisibleOnly: true
+                })
+              })
+          }).then(function(subscription) {
+            console.log("pushManager endpoint:", subscription.endpoint) 
+          }).catch(function(error) {
+            console.warn("serviceWorker error:", error)
+          })
+      }
+    });
+
+    //https://myenigma.hatenablog.com/entry/2015/07/21/113109
+    // addToHomescreen({
+    //   appID:"AddToHomescreenKindleHighlights",
+    //   lifespan:0,
+    //   message: 'メッセージ性強め'
+    // });
+    // const addToHome = addToHomescreen({ //http://cubiq.org/add-to-home-screen
+    //   appID:"AddToHomescreenKindleHighlights",
+    //   lifespan:0, //何秒で消えるか（ 0ならバツを押すまで消えない）
+    //   autostart: false, //自動で表示するか
+    //   startDelay: 2, //表示するまでの秒数
+    //   message: 'メッセージ性強め'
+    // });
+  </script>
 </body>
 </html>
