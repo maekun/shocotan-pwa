@@ -4,6 +4,58 @@
   <link rel="manifest" href="./manifest.json">
   <link rel="stylesheet" type="text/css" href="./css/addtohomescreen.css">
   <link rel="stylesheet" type="text/css" href="./css/index.css">
+
+  <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyDde1epM6vV3Gv9YscN2N0zfXP5fUo3PEA",
+      authDomain: "shocotan-pwa.firebaseapp.com",
+      databaseURL: "https://shocotan-pwa.firebaseio.com",
+      projectId: "shocotan-pwa",
+      storageBucket: "shocotan-pwa.appspot.com",
+      messagingSenderId: "1098161935702"
+    };
+    firebase.initializeApp(config);
+
+
+
+    const messaging = firebase.messaging();
+
+if ('serviceWorker' in navigator) {
+    // サービスワーカーの登録
+    navigator.serviceWorker.register('./sw.js').then(function(registration) {
+        // サービスワーカー登録成功
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        // 今回はこのサービスワーカーを指定します
+        messaging.useServiceWorker(registration);
+        // 通知の受信許可を確認する
+        messaging.requestPermission()
+                 .then(function() {
+                     console.log('Notification permission granted.');
+                     // トークンを取得する
+                     messaging.getToken()
+                              .then(function(currentToken) {
+                                  if (currentToken) {
+                                      // 今回はコンソールに出力して取得します。実運用では適切な方法で保管する必要があります。
+                                      console.log(currentToken);
+                                  } else {
+                                      console.log('No Instance ID token available. Request permission to generate one.');
+                                  }
+                              })
+                              .catch(function(err) {
+                                  console.log('An error occurred while retrieving token. ', err);
+                              });
+                 })
+                 .catch(function(err) {
+                     console.log('Unable to get permission to notify.', err);
+                 });
+    }).catch(function(err) {
+        // サービスワーカー登録失敗
+        console.log('ServiceWorker registration failed: ', err);
+    });
+}
+  </script>
   <title>Hello PWA.</title>
 </head>
 <body>
@@ -12,7 +64,7 @@
   <!-- <a href="p.html">p.html</a> -->
   <span id="endpoint"></span>
   <script src="./js/addtohomescreen.js"></script>
-  <script src="./js/main.js"></script>
+  <!-- <script src="./js/main.js"></script>
   <script>
     // service workerが有効なら、service-worker.js を登録します
     window.addEventListener('load', function() {
@@ -43,8 +95,9 @@
             console.warn("serviceWorker error:", error)
           })
       }
-    });
-    // https://myenigma.hatenablog.com/entry/2015/07/21/113109
+    }); -->
+
+    <!-- // https://myenigma.hatenablog.com/entry/2015/07/21/113109
     // addToHomescreen({
     //   appID:"AddToHomescreenKindleHighlights",
     //   lifespan:0,
@@ -57,6 +110,6 @@
     //   startDelay: 2, //表示するまでの秒数
     //   message: 'メッセージ性強め'
     // });
-  </script>
+  </script> -->
 </body>
 </html>
