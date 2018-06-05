@@ -31,7 +31,7 @@
     // service workerが有効なら、service-worker.js を登録します
     window.addEventListener('load', function() {
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register("/sw.js")
+        navigator.serviceWorker.register("./sw.js")
           .then(function(registration) {
             // console.log('Service Worker Registered');
             return registration.pushManager.getSubscription()
