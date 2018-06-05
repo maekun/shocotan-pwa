@@ -10,6 +10,7 @@
   <h1>Hello PWA.</h1>
   <img src="./image/pwa-logo.svg" alt="PWA logo" class="image" />
   <!-- <a href="p.html">p.html</a> -->
+  <span id="endpoint"></span>
   <script src="./js/addtohomescreen.js"></script>
   <script src="./js/main.js"></script>
   <script>
@@ -37,6 +38,7 @@
               })
           }).then(function(subscription) {
             console.log("pushManager endpoint:", subscription.endpoint) 
+            document.getElementById('endpoint').innerText(subscription.endpoint)
           }).catch(function(error) {
             console.warn("serviceWorker error:", error)
           })
