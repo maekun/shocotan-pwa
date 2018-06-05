@@ -12,20 +12,49 @@
   <!-- <a href="p.html">p.html</a> -->
   <script src="./js/addtohomescreen.js"></script>
   <script src="./js/main.js"></script>
-  <!-- <script>
-    https://myenigma.hatenablog.com/entry/2015/07/21/113109
-    addToHomescreen({
-      appID:"AddToHomescreenKindleHighlights",
-      lifespan:0,
-      message: 'メッセージ性強め'
+  <script>
+    // service workerが有効なら、service-worker.js を登録します
+    window.addEventListener('load', function() {
+      if ('serviceWorker' in navigator) {
+        // サービスワーカーの登録解除
+        // navigator.serviceWorker.getRegistrations()
+        //   .then((registrations) => { 
+        //     for(let registration of registrations) { 
+        //       registration.unregister();
+        //     } 
+        //   });
+        navigator.serviceWorker.register("./sw.js")
+          .then(function(registration) {
+            // console.log('Service Worker Registered');
+            return registration.pushManager.getSubscription()
+              .then(function(subscription) {
+                if (subscription) {
+                  return subscription
+                }
+                return registration.pushManager.subscribe({
+                  userVisibleOnly: true
+                })
+              })
+          }).then(function(subscription) {
+            console.log("pushManager endpoint:", subscription.endpoint) 
+          }).catch(function(error) {
+            console.warn("serviceWorker error:", error)
+          })
+      }
     });
-    const addToHome = addToHomescreen({ //http://cubiq.org/add-to-home-screen
-      appID:"AddToHomescreenKindleHighlights",
-      lifespan:0, //何秒で消えるか（ 0ならバツを押すまで消えない）
-      autostart: false, //自動で表示するか
-      startDelay: 2, //表示するまでの秒数
-      message: 'メッセージ性強め'
-    });
-  </script> -->
+    // https://myenigma.hatenablog.com/entry/2015/07/21/113109
+    // addToHomescreen({
+    //   appID:"AddToHomescreenKindleHighlights",
+    //   lifespan:0,
+    //   message: 'メッセージ性強め'
+    // });
+    // const addToHome = addToHomescreen({ //http://cubiq.org/add-to-home-screen
+    //   appID:"AddToHomescreenKindleHighlights",
+    //   lifespan:0, //何秒で消えるか（ 0ならバツを押すまで消えない）
+    //   autostart: false, //自動で表示するか
+    //   startDelay: 2, //表示するまでの秒数
+    //   message: 'メッセージ性強め'
+    // });
+  </script>
 </body>
 </html>
