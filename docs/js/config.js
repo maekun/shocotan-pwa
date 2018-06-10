@@ -1,0 +1,1 @@
+TOP_URL = 'https://maekun.github.io/shocotan-pwa/';

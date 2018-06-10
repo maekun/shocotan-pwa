@@ -1,14 +1,32 @@
 /**
  * 起動時.js
  */
-const messaging = firebase.messaging();
+// Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyDde1epM6vV3Gv9YscN2N0zfXP5fUo3PEA",
+      authDomain: "shocotan-pwa.firebaseapp.com",
+      databaseURL: "https://shocotan-pwa.firebaseio.com",
+      projectId: "shocotan-pwa",
+      storageBucket: "shocotan-pwa.appspot.com",
+      messagingSenderId: "1098161935702"
+    };
+    firebase.initializeApp(config);
+    // [START get_messaging_object]
+    // Retrieve Firebase Messaging object.
+    const messaging = firebase.messaging();
+    // [END get_messaging_object]
+    // [START set_public_vapid_key]
+    // Add the public key generated from the console here.
+    messaging.usePublicVapidKey(
+      'BFdunUMKBZ5rKcagYnz-WWyBxq_YLpbP7ut-0oV4ZOMthrkk7uNBWpmb7Dg8oVMHSC_G9BLPI5oHJliAkqlQP-8');
+    // [END set_public_vapid_key]
 
 if ('serviceWorker' in navigator) {
   // サービスワーカーの登録
   navigator.serviceWorker.register('./js/sw.js').then((registration) => {
     // サービスワーカー登録成功
     console.log('ServiceWorker registration successful with scope: ', registration.scope);
-    // 今回はこのサービスワーカーを指定します
+    // 今回はこのサービスワーカーを指定します \
     messaging.useServiceWorker(registration);
     // 通知の受信許可を確認する
     messaging.requestPermission()
@@ -51,3 +69,16 @@ messaging.onMessage(function(payload) {
   // [END_EXCLUDE]
 });
 // [END receive_message]
+
+
+// [START refresh_token]
+// Callback fired if Instance ID token is updated.
+messaging.onTokenRefresh(function () {
+  messaging.getToken().then(function (refreshedToken) {
+    console.log('Token refreshed.');
+    sendTokenToServer(refreshedToken);
+  }).catch(function (err) {
+    console.log('Unable to retrieve refreshed token ', err);
+  });
+});
+// [END refresh_token]
