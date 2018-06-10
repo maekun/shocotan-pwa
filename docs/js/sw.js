@@ -1,14 +1,19 @@
 self.addEventListener('push', (event) => {
     const recieveNotification = event.data.json().notification;
     event.waitUntil(
-        self.registration.showNotification(recieveNotification.title, {
-            'body': recieveNotification.body,
-            'icon': '../image/pwa-logo.svg',
-            'actions': [
-                {action: 'open', title: '開く'},
-                {action: 'close', title: '閉じる'}
-            ]
+        self.registration.showNotification("New message from Alice", {
+            actions: [
+                {action: 'like', title: '👍Like'},
+                {action: 'reply', title: '⤻ Reply'}]
         })
+        // self.registration.showNotification(recieveNotification.title, {
+        //     'body': recieveNotification.body,
+        //     'icon': '../image/pwa-logo.svg',
+        //     'actions': [
+        //         {action: 'open', title: '開く'},
+        //         {action: 'close', title: '閉じる'}
+        //     ]
+        // })
     );
 });
 
@@ -21,7 +26,7 @@ self.addEventListener('notificationclick', (event) => {
             // event.waitUntilを利用することで、処理中にサービスワーカーが自動再起動しないようにする
             event.waitUntil(
                 //ここに処理
-                clients.openWindow('https://maekun.github.io/shocotan-pwa/')
+                clients.openWindow(TOP_URL)
             )
             break;
 
