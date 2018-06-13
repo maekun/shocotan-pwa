@@ -29,9 +29,6 @@ self.addEventListener('notificationclick', (event) => {
 
     event.notification.close();
 
-    alert(event.action);
-    alert(event.data.url);
-
     switch (event.action) {
         case 'open':
             // event.waitUntilを利用することで、処理中にサービスワーカーが自動再起動しないようにする
