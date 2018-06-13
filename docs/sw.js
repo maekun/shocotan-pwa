@@ -1,6 +1,8 @@
+
 // Service Worker スクリプトのインストールと更新処理 については以下の記事が詳しい
 // https://nhiroki.jp/2018/02/15/service-worker-install-and-update-scripts
 // importScripts('imported_script.js');
+import hello from './js/hello';
 
 /**
  * push通知表示.
@@ -10,15 +12,15 @@ self.addEventListener('push', (event) => {
     event.waitUntil(
         self.registration.showNotification(parsedNotification.title, {
             body: parsedNotification.body,
+            icon: './image/pwa-logo.svg',
             actions: [
-                {action: 'open', title: '開く'},
-                {action: 'close', title: '閉じる'}
+                {action: 'open', icon: '', title: '開く'},
+                {action: 'close', icon: '', title: '閉じる'}
             ],
-            // vibrate: [200, 100, 200, 100, 200, 100, 200],
             data: {
                 url: "urlurlurl"
-            },
-            icon: './image/pwa-logo.svg'
+            }
+            // vibrate: [200, 100, 200, 100, 200, 100, 200],
         })
     );
 });
@@ -29,24 +31,24 @@ self.addEventListener('push', (event) => {
 self.addEventListener('notificationclick', (event) => {
     event.notification.close();
 
+    hello();
+
     // dataで渡した情報は以下のようにアクセスできる
     // event.notification.data.url
 
-    switch (event.action) {
-        case 'open':
-            // event.waitUntilを利用することで、処理中にサービスワーカーが自動再起動しないようにする
-            event.waitUntil(
-                //ここに処理
-                clients.openWindow(TOP_URL)
-            )
-            break;
+    // event.waitUntilを利用することで、処理中にサービスワーカーが自動再起動しないようにする
+    event.waitUntil(() => {
+        switch (event.action) {
 
-        case 'close':
-            event.waitUntil(
-                event.notification.close()
-            )
-            break;
-        default:
-            break;
-    }
+            case 'open':
+                clients.openWindow('/')
+                break;
+
+            case 'close':
+                clients.openWindow('/api/close')
+                break;
+            default:
+                break;
+        }
+    });
 });
