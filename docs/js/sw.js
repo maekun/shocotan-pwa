@@ -2,9 +2,17 @@ self.addEventListener('push', (event) => {
     const recieveNotification = event.data.json().notification;
     event.waitUntil(
         self.registration.showNotification("New message from Alice", {
-            actions: [
-                {action: 'like', title: '👍Like'},
-                {action: 'reply', title: '⤻ Reply'}]
+            actions: [{
+                action: "act1",
+                title: "ボタン１"
+            }, {
+                action: "act2",
+                title: "ボタン２"
+            }],
+            vibrate: [200, 100, 200, 100, 200, 100, 200],
+            data: {
+                url: "urlurlurl"
+            }
         })
         // self.registration.showNotification(recieveNotification.title, {
         //     'body': recieveNotification.body,
@@ -21,7 +29,8 @@ self.addEventListener('notificationclick', (event) => {
 
     event.notification.close();
 
-    alert(event.action)
+    alert(event.action);
+    alert(event.data.url);
 
     switch (event.action) {
         case 'open':
