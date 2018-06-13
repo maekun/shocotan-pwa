@@ -1,33 +1,36 @@
+// Service Worker スクリプトのインストールと更新処理 については以下の記事が詳しい
+// https://nhiroki.jp/2018/02/15/service-worker-install-and-update-scripts
+// importScripts('imported_script.js');
+
+/**
+ * push通知表示.
+ */
 self.addEventListener('push', (event) => {
-    const recieveNotification = event.data.json().notification;
+    const parsedNotification = event.data.json().notification;
     event.waitUntil(
-        self.registration.showNotification("New message from Alice", {
-            actions: [{
-                action: "act1",
-                title: "ボタン１"
-            }, {
-                action: "act2",
-                title: "ボタン２"
-            }],
-            vibrate: [200, 100, 200, 100, 200, 100, 200],
+        self.registration.showNotification(parsedNotification.title, {
+            body: parsedNotification.body,
+            actions: [
+                {action: 'open', title: '開く'},
+                {action: 'close', title: '閉じる'}
+            ],
+            // vibrate: [200, 100, 200, 100, 200, 100, 200],
             data: {
                 url: "urlurlurl"
-            }
+            },
+            icon: './image/pwa-logo.svg'
         })
-        // self.registration.showNotification(recieveNotification.title, {
-        //     'body': recieveNotification.body,
-        //     'icon': '../image/pwa-logo.svg',
-        //     'actions': [
-        //         {action: 'open', title: '開く'},
-        //         {action: 'close', title: '閉じる'}
-        //     ]
-        // })
     );
 });
 
+/**
+ * push通知クリック時の処理.
+ */
 self.addEventListener('notificationclick', (event) => {
-
     event.notification.close();
+
+    // dataで渡した情報は以下のようにアクセスできる
+    // event.notification.data.url
 
     switch (event.action) {
         case 'open':
@@ -46,12 +49,4 @@ self.addEventListener('notificationclick', (event) => {
         default:
             break;
     }
-
-//     if (event.action === 'action1') {
-//     clients.openWindow("/action1");
-//   } else if (event.action === 'action2') {
-//     clients.openWindow("/action2");
-//   } else {
-//     clients.openWindow("/");
-//   }
 });
