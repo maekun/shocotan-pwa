@@ -31,7 +31,7 @@ self.addEventListener('push', (event) => {
 self.addEventListener('notificationclick', (event) => {
     event.notification.close();
 
-    hello();
+    // hello();
 
     // dataで渡した情報は以下のようにアクセスできる
     // event.notification.data.url
@@ -45,7 +45,7 @@ self.addEventListener('notificationclick', (event) => {
                 break;
 
             case 'close':
-                clients.openWindow('/api/close')
+                self.clients.openWindow('/api/close')
                 break;
             default:
                 break;
