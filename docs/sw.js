@@ -1,8 +1,13 @@
 
 // Service Worker スクリプトのインストールと更新処理 については以下の記事が詳しい
 // https://nhiroki.jp/2018/02/15/service-worker-install-and-update-scripts
+
+/**
+ * 通知をクリックした時にさせたい動作をimportして
+ * サービスワーカーにキャッシュさせる.
+ * クリック時にさせたい画面遷移や操作はimportで使うようにしたい.
+ */
 importScripts('./js/hello.js');
-// import hello from './js/hello';
 
 /**
  * push通知表示.
@@ -31,7 +36,7 @@ self.addEventListener('push', (event) => {
 self.addEventListener('notificationclick', (event) => {
     event.notification.close();
 
-    // hello();
+    hello();
 
     // dataで渡した情報は以下のようにアクセスできる
     // event.notification.data.url
