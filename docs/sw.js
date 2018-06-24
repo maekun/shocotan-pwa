@@ -9,6 +9,31 @@
  */
 importScripts('./js/hello.js');
 
+
+//// showNotification()に渡せる設定一覧
+
+// "//": "Visual Options",
+// "body": "<String>",
+// "icon": "<URL String>",
+// "image": "<URL String>",
+// "badge": "<URL String>",
+// vibrate: [200, 100, 200, 100, 200, 100, 200],
+// "sound": "<URL String>",
+// "dir": "<String of 'auto' | 'ltr' | 'rtl'>",
+
+// "//": "Behavioural Options",
+// "tag": "<String>",
+// "data": "<Anything>",
+// "requireInteraction": "<boolean>",
+// "renotify": "<Boolean>",
+// "silent": "<Boolean>",
+
+// "//": "Both Visual & Behavioural Options",
+// "actions": "<Array of Strings>",
+
+// "//": "Information Option. No visual affect.",
+// "timestamp": "<Long>"
+
 /**
  * push通知表示.
  */
@@ -25,7 +50,6 @@ self.addEventListener('push', (event) => {
             data: {
                 url: "urlurlurl"
             }
-            // vibrate: [200, 100, 200, 100, 200, 100, 200],
         })
     );
 });

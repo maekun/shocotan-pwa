@@ -1,10 +1,6 @@
-// export default hello = () => {
-//     console.log('hello');
-// }
-
 /**
- * 通知詳細ページに関する
+ * プッシュ通知から通知詳細画面に遷移する.
  */
 const showNotificationDetail = id => {
-    console.log('detail');
+    console.log('detail ID : ' + id);
 }
